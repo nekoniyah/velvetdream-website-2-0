@@ -1,7 +1,11 @@
 import express from "express";
-import { join } from "path";
+import path, { join } from "path";
 import { config } from "dotenv";
 import { MailtrapClient } from "mailtrap";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url); // get the resolved path to the file
+const __dirname = path.dirname(__filename); // get the name of the directory
 
 // Load environment variables
 config();
