@@ -22,14 +22,3 @@
     <Footer />
   </div>
 </Router>
-
-<style>
-  :global(:root) {
-    --color-primary: #A41623;
-    --color-secondary: #D4AF37;
-    --color-dark: #0F0F0F;
-    --color-light: #FFFFFF;
-    --font-display: 'Aclonica', sans-serif;
-    --font-body: 'Dosis', sans-serif;
-  }
-</style>
