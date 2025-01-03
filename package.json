@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "start": "node server.js"
+    "start": "bun run ./api/server.js"
   },
   "dependencies": {
     "dotenv": "^16.4.7",
