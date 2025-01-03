@@ -49,11 +49,11 @@ app.post("/api/mail", async (req, res) => {
 });
 
 // Serve static files from the Svelte build directory
-app.use(express.static(path.join(__dirname, "dist")));
+app.use(express.static(path.join(__dirname, "..", "dist")));
 
 // Handle SPA routing - send all requests to index.html
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "dist", "index.html"));
+  res.sendFile(path.join(__dirname, "dist", "..", "index.html"));
 });
 
 // Error handling middleware
