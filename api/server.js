@@ -22,7 +22,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(json());
+app.use(express.json());
 app.use(urlencoded({ extended: true }));
 
 // API Routes
