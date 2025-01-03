@@ -1,10 +1,10 @@
-const express = require("express");
-const path = require("path");
-const dotenv = require("dotenv");
-const { MailtrapClient } = require("mailtrap");
+import express from "express";
+import { join } from "path";
+import { config } from "dotenv";
+import { MailtrapClient } from "mailtrap";
 
 // Load environment variables
-dotenv.config();
+config();
 
 // Initialize Express app
 const app = express();
@@ -22,8 +22,8 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(json());
+app.use(urlencoded({ extended: true }));
 
 // API Routes
 app.post("/api/mail", async (req, res) => {
@@ -56,11 +56,11 @@ app.post("/api/mail", async (req, res) => {
 });
 
 // Serve static files from the Svelte build directory
-app.use(express.static(path.join(__dirname, "..", "dist")));
+app.use(express.static(join(__dirname, "..", "dist")));
 
 // Handle SPA routing - send all requests to index.html
 app.get("/*", (req, res) => {
-  res.sendFile(path.join(__dirname, "dist", "..", "index.html"));
+  res.sendFile(join(__dirname, "dist", "..", "index.html"));
 });
 
 // Error handling middleware
@@ -75,4 +75,4 @@ app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 
-module.exports = app;
+export default app;
