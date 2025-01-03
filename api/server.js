@@ -23,7 +23,7 @@ app.use((req, res, next) => {
 });
 
 app.use(express.json());
-app.use(urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 
 // API Routes
 app.post("/api/mail", async (req, res) => {
