@@ -7,6 +7,7 @@
   import Projects from "./pages/Projects.svelte";
   import Contact from "./pages/Contact.svelte";
   import Privacy from "./pages/Privacy.svelte";
+  import Store from "./pages/Store.svelte";
   
   export let url = "";
 </script>
@@ -20,6 +21,7 @@
       <Route path="/projects" component={Projects} />
       <Route path="/contact" component={Contact} />
       <Route path="/privacy" component={Privacy} />
+      <Route path="/store" component={Store} />
     </main>
     <Footer />
   </div>

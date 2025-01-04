@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "start": "bun api/server.js",
+    "start": "bun ./api/server.js",
     "preview": "vite preview"
   },
   "dependencies": {
