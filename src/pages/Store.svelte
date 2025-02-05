@@ -2,17 +2,19 @@
   import "../app.css";
 </script>
 
-<div class="store-wrapper">
+<!-- <div class="store-wrapper">
   <h1>VelvetDream Merchandise</h1>
   <div class="store-content">
     <p class="store-description">
       Check out our official merchandise! Show your support with our custom designs.
     </p>
     <div class="store-embed">
-    <iframe style="border-radius:24px;border:none" src="https://embed.creator-spring.com/widget?slug=my-store-104f153&per=20&currency=&page=1&layout=carousel-small&theme=light" title="my-store-104f153 Merch store powered by Spring" width="100%" height="420" data-reactroot=""></iframe>
+       
     </div>
   </div>
-</div>
+</div> -->
+
+<iframe style="border-radius:24px;border:none" src="https://embed.creator-spring.com/widget?slug=my-store-104f153&per=20&currency=&page=1&layout=grid-sm-4&theme=dark" title="my-store-104f153 Merch store powered by Spring" width="100%" height="960" data-reactroot=""></iframe>
 
 <style>
   .store-wrapper {
