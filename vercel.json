@@ -10,5 +10,7 @@
       "source": "/(.*)",
       "destination": "./dist/index.html"
     }
-  ]
+  ],
+  "buildCommand": "npm run build",
+  "installCommand": "bun install"
 }
