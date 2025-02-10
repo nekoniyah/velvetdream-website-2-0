@@ -1,6 +1,9 @@
 import Database from "better-sqlite3";
 import seedDatabase from "./seed.js";
-const db = Database("velvetdream.db");
+const db = new Database("velvetdream.db", {
+  fileMustExist: false,
+  verbose: console.log,
+});
 
 // Initialize database tables
 db.exec(`
