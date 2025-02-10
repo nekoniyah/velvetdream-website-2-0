@@ -3,7 +3,7 @@
   "version": 2,
   "functions": {
     "api/**/*.js": {
-      "runtime": "bun"
+      "runtime": "bun@1.2.2"
     }
   }
 }
