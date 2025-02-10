@@ -12,5 +12,5 @@
     }
   ],
   "installCommand": "curl -fsSL https://bun.sh/install | bash && ~/.bun/bin/bun install --frozen-lockfile",
-  "buildCommand": "~/.bun/bin/bunx --bun vite build"
+  "buildCommand": "npm run build"
 }
