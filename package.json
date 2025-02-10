@@ -17,12 +17,14 @@
     "svelte": "^4.0.0",
     "svelte-icons": "^2.0.0",
     "svelte-routing": "^2.0.0",
+    "utf-8-validate": "^6.0.5",
     "vercel": "^39.2.5"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^3.0.0",
     "@types/bun": "^1.2.2",
     "@types/express": "^5.0.0",
+    "bun-types": "^1.2.2",
     "vite": "^5.0.0"
   }
 }
