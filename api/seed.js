@@ -23,6 +23,24 @@ const initialProjects = [
   },
 ];
 
+// Add this to your initial seeding
+const initialPosts = [
+  {
+    title: "Welcome to VelvetDream!",
+    content:
+      "We're excited to launch our new community hub. Stay tuned for updates about our projects and join the discussion!",
+    author: "VelvetDream Team",
+    image: "1.png",
+  },
+  {
+    title: "Development Update: Latest Progress",
+    content:
+      "Check out our latest development progress on our upcoming projects. We can't wait to share more details with you!",
+    author: "Development Team",
+    image: "1.png",
+  },
+];
+
 // Function to seed the database
 async function seedDatabase() {
   try {
@@ -30,6 +48,7 @@ async function seedDatabase() {
     db.prepare("DELETE FROM project_tags").run();
     db.prepare("DELETE FROM tags").run();
     db.prepare("DELETE FROM projects").run();
+    db.prepare("DELETE FROM company_posts").run();
 
     // Add each project
     for (const project of initialProjects) {
@@ -63,6 +82,16 @@ async function seedDatabase() {
         `
         ).run(projectId, tagName);
       }
+    }
+
+    // Add this to your seedDatabase function
+    for (const post of initialPosts) {
+      db.prepare(
+        `
+    INSERT INTO company_posts (title, content, author, image)
+    VALUES (?, ?, ?, ?)
+  `
+      ).run(post.title, post.content, post.author, post.image);
     }
 
     console.log("Database seeded successfully!");

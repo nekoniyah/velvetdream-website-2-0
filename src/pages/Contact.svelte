@@ -1,71 +1,72 @@
 <script>
-    import "../app.css";
-    
+  import "../app.css";
+
   let formData = {
     name: "",
     email: "",
-    message: ""
+    message: "",
   };
+  let status = { message: "", type: "" };
 
   async function handleSubmit(event) {
     event.preventDefault();
-    
+    status = { message: "", type: "" };
+
     try {
-      await fetch('/api/mail', {
-        method: 'POST',
+      const response = await fetch("/api/contact", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formData),
       });
-      
-      alert('Thank you for your message. We will get back to you soon!');
-      formData = { name: '', email: '', message: '' };
+
+      if (!response.ok) throw new Error("Failed to send message");
+
+      status = {
+        message: "Thank you for your message. We will get back to you soon!",
+        type: "success",
+      };
+      formData = { name: "", email: "", message: "" };
     } catch (error) {
-      console.error('Error sending message:', error);
+      status = {
+        message: "Failed to send message. Please try again later.",
+        type: "error",
+      };
     }
   }
 </script>
 
 <div class="contact-wrapper">
   <h1>Contact Us</h1>
-  
+
+  {#if status.message}
+    <div class="alert {status.type}">
+      {status.message}
+    </div>
+  {/if}
+
   <form on:submit={handleSubmit}>
     <div class="form-group">
       <label for="name">Name</label>
-      <input
-        type="text"
-        id="name"
-        bind:value={formData.name}
-        required
-      />
+      <input type="text" id="name" bind:value={formData.name} required />
     </div>
-    
+
     <div class="form-group">
       <label for="email">Email</label>
-      <input
-        type="email"
-        id="email"
-        bind:value={formData.email}
-        required
-      />
+      <input type="email" id="email" bind:value={formData.email} required />
     </div>
-    
+
     <div class="form-group">
       <label for="message">Message</label>
-      <textarea
-        id="message"
-        bind:value={formData.message}
-        required
-      ></textarea>
+      <textarea id="message" bind:value={formData.message} required></textarea>
     </div>
-    
+
     <button type="submit">Send Message</button>
   </form>
 </div>
 
 <style>
-   
   .contact-wrapper {
     max-width: 800px;
     margin: 0 auto;
@@ -90,7 +91,8 @@
     color: var(--color-primary);
   }
 
-  input, textarea {
+  input,
+  textarea {
     padding: 0.5rem;
     border: 1px solid var(--color-primary);
     border-radius: 4px;
@@ -113,5 +115,24 @@
 
   button:hover {
     background-color: var(--color-secondary);
+  }
+
+  .alert {
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  .success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+  }
+
+  .error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
   }
 </style>

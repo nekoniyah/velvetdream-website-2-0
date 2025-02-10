@@ -172,6 +172,29 @@ router.get("/tags", (req, res) => {
   }
 });
 
+router.post("/contact", async (req, res) => {
+  try {
+    const { name, email, message } = req.body;
+
+    const result = db
+      .prepare(
+        `
+      INSERT INTO contact_messages (name, email, message)
+      VALUES (?, ?, ?)
+    `
+      )
+      .run(name, email, message);
+
+    res.status(200).json({
+      message: "Message received successfully",
+      id: result.lastInsertRowid,
+    });
+  } catch (error) {
+    console.error("Error saving message:", error);
+    res.status(500).json({ error: "Failed to save message" });
+  }
+});
+
 app.use("/api", router);
 
 app.get("/*", (req, res) => {

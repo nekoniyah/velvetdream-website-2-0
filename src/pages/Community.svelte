@@ -1,16 +1,22 @@
 <script lang="ts">
+  import { onMount } from "svelte";
   import CompanyPost from "../components/CompanyPost.svelte";
 
-  const companyPosts = [
-    {
-      id: 1,
-      title: "New Game Announcement!",
-      content: "We're excited to announce our latest project...",
-      date: "2024-02-20",
-      author: "VelvetDream Team",
-      image: "https://picsum.photos/800/400",
-    },
-  ];
+  let posts = [];
+  let loading = true;
+  let error = null;
+
+  onMount(async () => {
+    try {
+      const response = await fetch("/api/posts");
+      if (!response.ok) throw new Error("Failed to fetch posts");
+      posts = await response.json();
+    } catch (err) {
+      error = err.message;
+    } finally {
+      loading = false;
+    }
+  });
 </script>
 
 <div class="community-wrapper">
@@ -18,14 +24,25 @@
 
   <section class="company-updates">
     <h2>Latest Updates</h2>
-    {#each companyPosts as post (post.id)}
-      <CompanyPost {post} />
-    {/each}
+    {#if loading}
+      <p>Loading updates...</p>
+    {:else if error}
+      <p class="error">Error: {error}</p>
+    {:else if posts.length === 0}
+      <p>No updates available yet.</p>
+    {:else}
+      {#each posts as post (post.id)}
+        <CompanyPost {post} />
+      {/each}
+    {/if}
   </section>
 
   <section class="community-discussion">
     <h2>Community Discussion</h2>
-    <!-- Add discussion forum component here -->
+    <p>
+      Coming soon! We're working on bringing you a space to discuss and share
+      your thoughts.
+    </p>
   </section>
 </div>
 
@@ -47,5 +64,13 @@
 
   h2 {
     margin-bottom: 2rem;
+  }
+
+  .error {
+    color: #721c24;
+    background-color: #f8d7da;
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
   }
 </style>
