@@ -24,8 +24,9 @@ app.use((req, res, next) => {
   res.header("Access-Control-Allow-Headers", "Content-Type");
   next();
 });
-// Serve static files from the Svelte build directory
-app.use(express.static(join(__dirname, "..", "dist")));
+
+// // Serve static files from the Svelte build directory
+// app.use(express.static(join(__dirname, "..", "dist")));
 
 app.post("/api/admin/login", (req, res) => {
   const { password } = req.body;
@@ -208,9 +209,9 @@ router.get("/admin/messages", adminAuth, async (req, res) => {
   }
 });
 
-app.get("/*", (req, res) => {
-  res.sendFile(join(__dirname, "..", "dist", "index.html"));
-});
+// app.get("/*", (req, res) => {
+//   res.sendFile(join(__dirname, "..", "dist", "index.html"));
+// });
 
 app.use("/api", router);
 
