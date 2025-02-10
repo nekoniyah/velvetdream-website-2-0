@@ -5,21 +5,24 @@
   const projects = [
     {
       id: 1,
-      title: "Example Project 1",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.",
-      image: "https://picsum.photos/600/400"
+      title: "Beast: Shapes of Gods",
+      description: "BSOG (Beast: Shapes of Gods) is a TCG (Trading Card Game) inspired by League of Legends and MTG (Magic: The Gathering). Fight with your favorite heroes and spells in a fast-paced game.",
+      image: "bsog.png",
+      tags: ["TCG", "Card Game", "Strategy"]
     },
     {
       id: 2,
-      title: "Example Project 2",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.",
-      image: "https://picsum.photos/600/400"
+      title: "Blatant: Fight with skill",
+      description: "Blatant is a board game where you must use your resources to enhance your pawns and reach the enemy base to win the game. Cast unique cards to surprise your enemies, capture other enemy pawns, manage your resources, etc. This is played between 2 and 4 players.",
+      image: "blatant.png",
+      tags: ["Board Game", "Strategy"]
     },
     {
       id: 3,
-      title: "Example Project 3",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.",
-      image: "https://picsum.photos/600/400"
+      title: "Coming soon...",
+      description: "We are working on new projects. Stay tuned!",
+      image: "1.png",
+      tags: ["New Project"]
     }
   ];
 </script>
