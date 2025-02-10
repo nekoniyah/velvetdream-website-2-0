@@ -24,13 +24,9 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(express.static(path.join(__dirname, "..", "dist")));
-
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "dist", "index.html"));
-});
-
 const router = express.Router();
+
+app.use(express.static(path.join(__dirname, "..", "dist")));
 
 // Projects routes
 router.get("/projects", async (req, res) => {
@@ -104,6 +100,10 @@ router.get("/admin/messages", adminAuth, async (req, res) => {
 });
 
 app.use("/api", router);
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "dist", "index.html"));
+});
 
 // const port = process.env.PORT || 3000;
 // app.listen(port, () => {

@@ -15,9 +15,10 @@
       if (!response.ok) throw new Error("Failed to fetch projects");
 
       const data = await response.json();
+      console.log(data);
       projects = data.map((project) => ({
         ...project,
-        tags: project.tags ? project.tags.split(",") : [],
+        tags: project.tags ? project.tags : [],
       }));
 
       // Extract unique tags

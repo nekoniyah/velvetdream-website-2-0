@@ -43,8 +43,8 @@ const initialPosts = [
 async function seedDatabase() {
   try {
     // Clear existing data
-    await Project.deleteMany({});
-    await CompanyPost.deleteMany({});
+    await Project.deleteMany();
+    await CompanyPost.deleteMany();
 
     // Insert new data
     await Project.insertMany(initialProjects);

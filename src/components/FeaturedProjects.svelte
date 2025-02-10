@@ -13,10 +13,11 @@
       if (!response.ok) throw new Error("Failed to fetch projects");
 
       const data = await response.json();
+      console.log(data);
       // Take only the first 2 projects for featured section
       featuredProjects = data.slice(0, 2).map((project) => ({
         ...project,
-        tags: project.tags ? project.tags.split(",") : [],
+        tags: project.tags ? project.tags : [],
       }));
     } catch (err) {
       error = err.message;
