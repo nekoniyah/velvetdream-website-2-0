@@ -45,36 +45,6 @@ app.post("/api/admin/login", (req, res) => {
 
 let router = express.Router();
 
-// API Routes
-router.post("/mail", async (req, res) => {
-  try {
-    const formData = req.body;
-
-    const sender = {
-      email: `hello@velvetdream.eu`,
-      name: `${formData.name}`,
-    };
-
-    const recipients = [
-      {
-        email: "contact.velvetdream@gmail.com",
-      },
-    ];
-
-    await client.send({
-      from: sender,
-      to: recipients,
-      subject: `Message from ${formData.name}`,
-      text: `Name: ${formData.name} \nEmail: ${formData.email} \nMessage: ${formData.message}`,
-    });
-
-    res.status(200).json({ message: "Email sent successfully" });
-  } catch (error) {
-    console.error("Error sending email:", error);
-    res.status(500).json({ error: "Failed to send email" });
-  }
-});
-
 // Projects routes
 router.get("/projects", (req, res) => {
   try {
