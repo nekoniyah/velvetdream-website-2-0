@@ -1,5 +1,5 @@
 import { Database } from "bun:sqlite";
-import seedDatabase from "./seed";
+import seedDatabase from "./seed.js";
 const db = new Database("velvetdream.db");
 
 // Initialize database tables
