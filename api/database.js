@@ -7,7 +7,7 @@ import path from "path";
 //   fileMustExist: false,
 // });
 
-const db = new Database("velvetdream.db");
+const db = new Database(process.cwd() + "/velvetdream.db");
 
 // Initialize database tables
 db.exec(`
