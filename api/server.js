@@ -1,7 +1,6 @@
 import express from "express";
 import path, { join } from "path";
 import { config } from "dotenv";
-import { MailtrapClient } from "mailtrap";
 import { fileURLToPath } from "url";
 import { db } from "./database.js";
 import { adminAuth } from "./middleware/auth.js";
@@ -14,11 +13,6 @@ config();
 
 // Initialize Express app
 const app = express();
-
-// Initialize Mailtrap client
-const client = new MailtrapClient({
-  token: process.env.MAILTRAP_TOKEN,
-});
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
