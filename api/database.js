@@ -8,11 +8,11 @@ import path from "path";
 //   fileMustExist: false,
 // });
 
-if (!fs.existsSync(path.join(process.cwd(), "velvetdream.db"))) {
-  fs.writeFileSync(path.join(process.cwd(), "velvetdream.db"), "");
+if (!fs.existsSync("./velvetdream.db")) {
+  fs.writeFileSync("./velvetdream.db", "");
 }
 
-const db = new Database(process.cwd() + "/velvetdream.db");
+const db = new Database("./velvetdream.db");
 
 // Initialize database tables
 db.exec(`
