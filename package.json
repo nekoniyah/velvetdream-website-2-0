@@ -6,8 +6,7 @@
   "scripts": {
     "dev": "bun run --bun vite",
     "build": "bun run --bun vite build",
-    "start": "bun run --bun ./api/server.js",
-    "install": "bun install --force"
+    "start": "bun run --bun ./api/server.js"
   },
   "dependencies": {
     "@vercel/node": "^3.0.0",
