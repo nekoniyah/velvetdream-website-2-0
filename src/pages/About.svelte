@@ -9,12 +9,8 @@
   
   <div class="about-content">
     <img 
-<<<<<<< HEAD
-      src="https://picsum.photos/800/600" 
-=======
       src="./1.png"
       style="width: 800px; height: 600px;" 
->>>>>>> ee76bc9 (aaaa)
       alt="VelvetDream Creative Process" 
     />
     
