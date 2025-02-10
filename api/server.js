@@ -53,9 +53,9 @@ router.get("/projects", (req, res) => {
       GROUP BY p.id
     `
       )
-      .all();
-
-    res.json(projects);
+      .all((error, rows) => {
+        res.json(rows);
+      });
   } catch (error) {
     console.error("Error fetching projects:", error);
     res.status(500).json({ error: "Failed to fetch projects" });
@@ -109,8 +109,9 @@ router.get("/posts", (req, res) => {
   try {
     const posts = db
       .prepare("SELECT * FROM company_posts ORDER BY created_at DESC")
-      .all();
-    res.json(posts);
+      .all((error, rows) => {
+        res.json(rows);
+      });
   } catch (error) {
     console.error("Error fetching posts:", error);
     res.status(500).json({ error: "Failed to fetch posts" });
@@ -159,8 +160,9 @@ router.post("/admin/posts", adminAuth, (req, res) => {
 // Tags routes
 router.get("/tags", (req, res) => {
   try {
-    const tags = db.prepare("SELECT * FROM tags").all();
-    res.json(tags);
+    const tags = db.prepare("SELECT * FROM tags").all((error, rows) => {
+      res.json(rows);
+    });
   } catch (error) {
     console.error("Error fetching tags:", error);
     res.status(500).json({ error: "Failed to fetch tags" });
@@ -200,9 +202,9 @@ router.get("/admin/messages", adminAuth, async (req, res) => {
       LIMIT 10
     `
       )
-      .all();
-
-    res.json(messages);
+      .all((error, rows) => {
+        res.json(rows);
+      });
   } catch (error) {
     console.error("Error fetching messages:", error);
     res.status(500).json({ error: "Failed to fetch messages" });
