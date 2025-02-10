@@ -1,4 +1,4 @@
-import { Database } from "bun:sqlite";
+import Database from "bun:sqlite";
 import seedDatabase from "./seed.js";
 const db = new Database("velvetdream.db");
 
