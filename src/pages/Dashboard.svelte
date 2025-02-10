@@ -44,7 +44,7 @@
         const projectsData = await projectsResponse.json();
         projects = projectsData.map((project) => ({
           ...project,
-          tags: project.tags ? project.tags.split(",") : [],
+          tags: project.tags ? project.tags : [],
         }));
       }
       loading.projects = false;
