@@ -2,10 +2,15 @@
 import pkg from "sqlite3";
 const { Database } = pkg;
 import seedDatabase from "./seed.js";
+import fs from "fs";
 import path from "path";
 // const db = new Database(path.join(process.cwd(), "velvetdream.db"), {
 //   fileMustExist: false,
 // });
+
+if (!fs.existsSync(path.join(process.cwd(), "velvetdream.db"))) {
+  fs.writeFileSync(path.join(process.cwd(), "velvetdream.db"), "");
+}
 
 const db = new Database(process.cwd() + "/velvetdream.db");
 
