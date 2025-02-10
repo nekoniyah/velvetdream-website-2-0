@@ -4,9 +4,9 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "bunx --bun vite",
-    "build": "bunx --bun vite build",
-    "start": "bunx --bun ./api/server.js"
+    "dev": "vite",
+    "build": "vite build",
+    "start": "bun ./api/server.js"
   },
   "dependencies": {
     "@vercel/node": "^3.0.0",
