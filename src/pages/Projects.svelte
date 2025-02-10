@@ -1,7 +1,9 @@
-<script>
+<script lang="ts">
   import ProjectCard from "../components/ProjectCard.svelte";
-  import "../app.css";
-  
+  import TagFilter from "../components/TagFilter.svelte";
+
+  let selectedTags = [];
+
   const projects = [
     {
       id: 1,
@@ -25,19 +27,28 @@
       tags: ["New Project"]
     }
   ];
+  // Extract unique tags from all projects
+  const allTags = [...new Set(projects.flatMap((project) => project.tags))];
+
+  $: filteredProjects =
+    selectedTags.length > 0
+      ? projects.filter((project) =>
+          project.tags.some((tag) => selectedTags.includes(tag)),
+        )
+      : projects;
 </script>
 
 <div class="projects-wrapper">
   <h1>Our Projects</h1>
+  <TagFilter tags={allTags} bind:selectedTags />
   <div class="project-grid">
-    {#each projects as project (project.id)}
+    {#each filteredProjects as project (project.id)}
       <ProjectCard {project} />
     {/each}
   </div>
 </div>
 
 <style>
-
   .projects-wrapper {
     max-width: 1200px;
     margin: 0 auto;
