@@ -1,6 +1,7 @@
-import Database from "bun:sqlite";
+import Database from "better-sqlite3";
 import seedDatabase from "./seed.js";
-const db = new Database("velvetdream.db");
+import path from "path";
+const db = new Database(path.join(process.cwd(), "velvetdream.db"));
 
 // Initialize database tables
 db.run(`
