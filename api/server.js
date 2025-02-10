@@ -32,6 +32,16 @@ app.use((req, res, next) => {
 // Serve static files from the Svelte build directory
 app.use(express.static(join(__dirname, "..", "dist")));
 
+app.post("/api/admin/login", (req, res) => {
+  const { password } = req.body;
+
+  if (password === process.env.ADMIN_PASSWORD) {
+    res.json({ token: process.env.ADMIN_TOKEN });
+  } else {
+    res.status(401).json({ error: "Invalid credentials" });
+  }
+});
+
 let router = express.Router();
 
 // API Routes
@@ -86,7 +96,7 @@ router.get("/projects", (req, res) => {
   }
 });
 
-router.post("/projects", (req, res) => {
+router.post("/admin/projects", (req, res) => {
   try {
     const { title, description, image, tags } = req.body;
 
@@ -141,7 +151,7 @@ router.get("/posts", (req, res) => {
   }
 });
 
-router.post("/posts", (req, res) => {
+router.post("/admin/posts", (req, res) => {
   try {
     const { title, content, author, image } = req.body;
 
@@ -159,6 +169,25 @@ router.post("/posts", (req, res) => {
     console.error("Error creating post:", error);
     res.status(500).json({ error: "Failed to create post" });
   }
+
+  router.get("/messages", async (req, res) => {
+    try {
+      const messages = db
+        .prepare(
+          `
+        SELECT * FROM contact_messages 
+        ORDER BY created_at DESC 
+        LIMIT 10
+      `
+        )
+        .all();
+
+      res.json(messages);
+    } catch (error) {
+      console.error("Error fetching messages:", error);
+      res.status(500).json({ error: "Failed to fetch messages" });
+    }
+  });
 });
 
 // Tags routes
@@ -192,6 +221,25 @@ router.post("/contact", async (req, res) => {
   } catch (error) {
     console.error("Error saving message:", error);
     res.status(500).json({ error: "Failed to save message" });
+  }
+});
+
+router.get("/admin/messages", async (req, res) => {
+  try {
+    const messages = db
+      .prepare(
+        `
+      SELECT * FROM contact_messages 
+      ORDER BY created_at DESC 
+      LIMIT 10
+    `
+      )
+      .all();
+
+    res.json(messages);
+  } catch (error) {
+    console.error("Error fetching messages:", error);
+    res.status(500).json({ error: "Failed to fetch messages" });
   }
 });
 

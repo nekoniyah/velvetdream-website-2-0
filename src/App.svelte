@@ -9,6 +9,8 @@
   import Privacy from "./pages/Privacy.svelte";
   import Store from "./pages/Store.svelte";
   import Community from "./pages/Community.svelte";
+  import Dashboard from "./pages/Dashboard.svelte";
+  import AdminLogin from "./pages/AdminLogin.svelte";
 
   export let url = "";
 </script>
@@ -24,6 +26,8 @@
       <Route path="/privacy" component={Privacy} />
       <Route path="/store" component={Store} />
       <Route path="/community" component={Community} />
+      <Route path="/admin/login" component={AdminLogin} />
+      <Route path="/admin/dashboard" component={Dashboard} />
     </main>
     <Footer />
   </div>
