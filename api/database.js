@@ -1,12 +1,9 @@
-import Database from "better-sqlite3";
+import Database from "bun:sqlite";
 import seedDatabase from "./seed.js";
-const db = new Database("velvetdream.db", {
-  fileMustExist: false,
-  verbose: console.log,
-});
+const db = new Database("velvetdream.db");
 
 // Initialize database tables
-db.exec(`
+db.run(`
   CREATE TABLE IF NOT EXISTS projects (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     title TEXT NOT NULL,
@@ -16,14 +13,14 @@ db.exec(`
   )
 `);
 
-db.exec(`
+db.run(`
   CREATE TABLE IF NOT EXISTS tags (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL UNIQUE
   )
 `);
 
-db.exec(`
+db.run(`
   CREATE TABLE IF NOT EXISTS project_tags (
     project_id INTEGER,
     tag_id INTEGER,
@@ -33,7 +30,7 @@ db.exec(`
   )
 `);
 
-db.exec(`
+db.run(`
   CREATE TABLE IF NOT EXISTS company_posts (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     title TEXT NOT NULL,
@@ -44,7 +41,7 @@ db.exec(`
   )
 `);
 
-db.exec(`
+db.run(`
   CREATE TABLE IF NOT EXISTS contact_messages (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
