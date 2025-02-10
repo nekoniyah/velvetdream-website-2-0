@@ -14,6 +14,11 @@ if (!fs.existsSync("./velvetdream.db")) {
 
 const db = new Database("./velvetdream.db");
 
+db.configure("busyTimeout", 3000);
+db.serialize(() => {
+  db.run("PRAGMA foreign_keys = ON");
+});
+
 // Initialize database tables
 db.exec(`
   CREATE TABLE IF NOT EXISTS projects (
