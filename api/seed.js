@@ -1,4 +1,4 @@
-import { db } from "./database.js";
+import { Project, CompanyPost } from "./database.js";
 
 const initialProjects = [
   {
@@ -23,7 +23,6 @@ const initialProjects = [
   },
 ];
 
-// Add this to your initial seeding
 const initialPosts = [
   {
     title: "Welcome to VelvetDream!",
@@ -41,58 +40,15 @@ const initialPosts = [
   },
 ];
 
-// Function to seed the database
 async function seedDatabase() {
   try {
     // Clear existing data
-    db.prepare("DELETE FROM project_tags").run();
-    db.prepare("DELETE FROM tags").run();
-    db.prepare("DELETE FROM projects").run();
-    db.prepare("DELETE FROM company_posts").run();
+    await Project.deleteMany({});
+    await CompanyPost.deleteMany({});
 
-    // Add each project
-    for (const project of initialProjects) {
-      // Insert project
-      const result = db
-        .prepare(
-          `
-        INSERT INTO projects (title, description, image)
-        VALUES (?, ?, ?)
-      `
-        )
-        .run(project.title, project.description, project.image);
-
-      const projectId = result.lastInsertRowid;
-
-      // Add tags
-      for (const tagName of project.tags) {
-        // Insert tag if it doesn't exist
-        db.prepare(
-          `
-          INSERT OR IGNORE INTO tags (name)
-          VALUES (?)
-        `
-        ).run(tagName);
-
-        // Link project with tag
-        db.prepare(
-          `
-          INSERT INTO project_tags (project_id, tag_id)
-          VALUES (?, (SELECT id FROM tags WHERE name = ?))
-        `
-        ).run(projectId, tagName);
-      }
-    }
-
-    // Add this to your seedDatabase function
-    for (const post of initialPosts) {
-      db.prepare(
-        `
-    INSERT INTO company_posts (title, content, author, image)
-    VALUES (?, ?, ?, ?)
-  `
-      ).run(post.title, post.content, post.author, post.image);
-    }
+    // Insert new data
+    await Project.insertMany(initialProjects);
+    await CompanyPost.insertMany(initialPosts);
 
     console.log("Database seeded successfully!");
   } catch (error) {
@@ -100,5 +56,4 @@ async function seedDatabase() {
   }
 }
 
-// Run the seeding
 export default seedDatabase;
