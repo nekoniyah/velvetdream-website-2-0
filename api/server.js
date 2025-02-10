@@ -19,6 +19,9 @@ const client = new MailtrapClient({
   token: process.env.MAILTRAP_TOKEN,
 });
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 // Add CORS headers
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
@@ -26,14 +29,13 @@ app.use((req, res, next) => {
   res.header("Access-Control-Allow-Headers", "Content-Type");
   next();
 });
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 // Serve static files from the Svelte build directory
-app.use("/", express.static(join(__dirname, "..", "dist")));
+app.use(express.static(join(__dirname, "..", "dist")));
+
+let router = express.Router();
 
 // API Routes
-app.post("/api/mail", async (req, res) => {
+router.post("/mail", async (req, res) => {
   try {
     const formData = req.body;
 
@@ -63,7 +65,7 @@ app.post("/api/mail", async (req, res) => {
 });
 
 // Projects routes
-app.get("/api/projects", (req, res) => {
+router.get("/projects", (req, res) => {
   try {
     const projects = db
       .prepare(
@@ -84,7 +86,7 @@ app.get("/api/projects", (req, res) => {
   }
 });
 
-app.post("/api/projects", (req, res) => {
+router.post("/projects", (req, res) => {
   try {
     const { title, description, image, tags } = req.body;
 
@@ -127,7 +129,7 @@ app.post("/api/projects", (req, res) => {
 });
 
 // Company posts routes
-app.get("/api/posts", (req, res) => {
+router.get("/posts", (req, res) => {
   try {
     const posts = db
       .prepare("SELECT * FROM company_posts ORDER BY created_at DESC")
@@ -139,7 +141,7 @@ app.get("/api/posts", (req, res) => {
   }
 });
 
-app.post("/api/posts", (req, res) => {
+router.post("/posts", (req, res) => {
   try {
     const { title, content, author, image } = req.body;
 
@@ -160,7 +162,7 @@ app.post("/api/posts", (req, res) => {
 });
 
 // Tags routes
-app.get("/api/tags", (req, res) => {
+router.get("/tags", (req, res) => {
   try {
     const tags = db.prepare("SELECT * FROM tags").all();
     res.json(tags);
@@ -168,6 +170,12 @@ app.get("/api/tags", (req, res) => {
     console.error("Error fetching tags:", error);
     res.status(500).json({ error: "Failed to fetch tags" });
   }
+});
+
+app.use("/api", router);
+
+app.get("/*", (req, res) => {
+  res.sendFile(join(__dirname, "..", "dist", "index.html"));
 });
 
 // Start server

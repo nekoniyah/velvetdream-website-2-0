@@ -1,5 +1,5 @@
 import { Database } from "bun:sqlite";
-
+import seedDatabase from "./seed";
 const db = new Database("velvetdream.db");
 
 // Initialize database tables
@@ -40,5 +40,9 @@ db.run(`
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
   )
 `);
+
+(async () => {
+  await seedDatabase();
+})();
 
 export { db };
