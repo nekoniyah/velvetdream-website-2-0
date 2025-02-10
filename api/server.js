@@ -208,11 +208,11 @@ router.get("/admin/messages", adminAuth, async (req, res) => {
   }
 });
 
-app.use("/api", router);
-
 app.get("/*", (req, res) => {
   res.sendFile(join(__dirname, "..", "dist", "index.html"));
 });
+
+app.use("/api", router);
 
 // Start server
 const port = process.env.PORT || 3000;
