@@ -35,3 +35,16 @@ a {
 a:hover {
   color: var(--color-secondary);
 }
+
+:root {
+  /* ... existing variables ... */
+  
+  /* Add these new variables */
+  --header-height: 70px;
+  --transition-speed: 0.3s;
+}
+
+/* Add this to ensure proper body behavior when menu is open */
+body.menu-open {
+  overflow: hidden;
+}

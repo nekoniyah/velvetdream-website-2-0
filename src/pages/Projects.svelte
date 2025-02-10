@@ -22,7 +22,10 @@
       }));
 
       // Extract unique tags
-      allTags = [...new Set(projects.flatMap((project) => project.tags))];
+      allTags = projects
+        .map((project) => project.tags)
+        .flat()
+        .filter((tag, index, tags) => tags.indexOf(tag) === index);
     } catch (err) {
       error = err.message;
     } finally {
@@ -33,7 +36,7 @@
   $: filteredProjects =
     selectedTags.length > 0
       ? projects.filter((project) =>
-          project.tags.some((tag: string) => selectedTags.includes(tag))
+          selectedTags.every((tag) => project.tags.includes(tag))
         )
       : projects;
 </script>

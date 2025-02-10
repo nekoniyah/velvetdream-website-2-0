@@ -13,6 +13,20 @@
   import AdminLogin from "./pages/AdminLogin.svelte";
 
   export let url = "";
+
+  // Add routes to the store
+  import { routes } from "./stores";
+
+  routes.update((routes) => [
+    ...routes,
+    { name: "Home", path: "/" },
+    { name: "About", path: "/about" },
+    { name: "Projects", path: "/projects" },
+    { name: "Contact", path: "/contact" },
+    { name: "Privacy", path: "/privacy" },
+    { name: "Store", path: "/store" },
+    { name: "Community", path: "/community" },
+  ]);
 </script>
 
 <Router {url}>

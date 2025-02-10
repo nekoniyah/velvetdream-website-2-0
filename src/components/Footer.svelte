@@ -1,6 +1,6 @@
 <script>
   import { Link } from "svelte-routing";
-  import { FaFacebookF, FaTwitter, FaInstagram } from 'svelte-icons/fa';
+  import { FaFacebookF, FaTwitter, FaInstagram } from "svelte-icons/fa";
 </script>
 
 <footer class="footer-wrapper">
@@ -20,19 +20,19 @@
     <div class="footer-section">
       <h3>Connect With Us</h3>
       <div class="social-icons">
-        <a 
-          href="https://x.com/velvetdream_off" 
-          target="_blank" 
+        <a
+          href="https://x.com/velvetdream_off"
+          target="_blank"
           rel="noopener noreferrer"
         >
           <FaTwitter />
         </a>
-        <a 
-          href="https://www.instagram.com/velvetdream.off/" 
-          target="_blank" 
+        <a
+          href="https://www.instagram.com/velvetdream.off/"
+          target="_blank"
           rel="noopener noreferrer"
         >
-          <FaInstagram  />
+          <FaInstagram />
         </a>
       </div>
     </div>
@@ -50,6 +50,8 @@
     background-color: var(--color-dark);
     color: var(--color-light);
     padding: 3rem 0 1rem;
+    background: linear-gradient(to bottom, var(--color-dark), #000);
+    margin-top: auto; /* Stick to bottom */
   }
 
   .footer-content {
@@ -94,6 +96,12 @@
     transition: color 0.3s ease;
     width: 2rem;
     height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    padding: 0.5rem;
   }
 
   .social-icons a:hover {
