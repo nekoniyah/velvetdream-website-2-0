@@ -99,9 +99,9 @@ router.get("/admin/messages", adminAuth, async (req, res) => {
 
 app.use("/api", router);
 
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+// const port = process.env.PORT || 3000;
+// app.listen(port, () => {
+//   console.log(`Server is running on port ${port}`);
+// });
 
 export default app;

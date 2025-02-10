@@ -1,17 +1,31 @@
 import mongoose from "mongoose";
 import seedDatabase from "./seed.js";
 
+let cachedConnection = null;
+
 const connectDB = async () => {
+  if (cachedConnection) {
+    return cachedConnection;
+  }
+
   try {
-    await mongoose.connect(
-      process.env.MONGODB_URI || "mongodb://localhost:27017/velvetdream"
-    );
+    const conn = await mongoose.connect(process.env.MONGODB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+
+    cachedConnection = conn;
     console.log("MongoDB connected successfully");
 
-    // Run seeding after successful connection
-    await seedDatabase();
+    // Only run seeding in development
+    if (process.env.NODE_ENV === "development") {
+      await seedDatabase();
+    }
+
+    return conn;
   } catch (error) {
     console.error("MongoDB connection error:", error);
+    throw error;
   }
 };
 
