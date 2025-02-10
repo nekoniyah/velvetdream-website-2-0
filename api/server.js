@@ -4,6 +4,7 @@ import { config } from "dotenv";
 import { MailtrapClient } from "mailtrap";
 import { fileURLToPath } from "url";
 import { db } from "./database.js";
+import { adminAuth } from "./middleware/auth.js";
 
 const __filename = fileURLToPath(import.meta.url); // get the resolved path to the file
 const __dirname = path.dirname(__filename); // get the name of the directory
@@ -96,7 +97,7 @@ router.get("/projects", (req, res) => {
   }
 });
 
-router.post("/admin/projects", (req, res) => {
+router.post("/admin/projects", adminAuth, (req, res) => {
   try {
     const { title, description, image, tags } = req.body;
 
@@ -151,7 +152,7 @@ router.get("/posts", (req, res) => {
   }
 });
 
-router.post("/admin/posts", (req, res) => {
+router.post("/admin/posts", adminAuth, (req, res) => {
   try {
     const { title, content, author, image } = req.body;
 
@@ -224,7 +225,7 @@ router.post("/contact", async (req, res) => {
   }
 });
 
-router.get("/admin/messages", async (req, res) => {
+router.get("/admin/messages", adminAuth, async (req, res) => {
   try {
     const messages = db
       .prepare(
