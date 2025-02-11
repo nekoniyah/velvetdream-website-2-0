@@ -33,17 +33,15 @@
 
   let filteredProjects = projects;
 
-  setInterval(() => {
-    filteredProjects = [];
+  $: {
     if (selectedTags.length === 0) {
       filteredProjects = projects;
-    }
-    selectedTags.forEach((tag) => {
+    } else {
       filteredProjects = projects.filter((project) =>
-        project.tags.includes(tag)
+        selectedTags.every((tag) => project.tags.includes(tag))
       );
-    });
-  }, 0);
+    }
+  }
 </script>
 
 <div class="projects-wrapper">
