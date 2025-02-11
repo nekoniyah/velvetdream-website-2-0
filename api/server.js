@@ -41,7 +41,7 @@ app.post("/api/admin/login", (req, res) => {
 // Projects routes
 router.get("/projects", async (req, res) => {
   try {
-    const projects = await Project.find().sort({ created_at: -1 });
+    const projects = await Project.find();
     res.json(projects);
   } catch (error) {
     console.error("Error fetching projects:", error);

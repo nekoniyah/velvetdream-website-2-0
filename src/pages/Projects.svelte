@@ -15,11 +15,9 @@
       if (!response.ok) throw new Error("Failed to fetch projects");
 
       const data = await response.json();
-      console.log(data);
-      projects = data.map((project) => ({
-        ...project,
-        tags: project.tags ? project.tags : [],
-      }));
+      projects = data;
+
+      console.log(projects);
 
       // Extract unique tags
       allTags = projects
@@ -33,12 +31,19 @@
     }
   });
 
-  $: filteredProjects =
-    selectedTags.length > 0
-      ? projects.filter((project) =>
-          selectedTags.every((tag) => project.tags.includes(tag))
-        )
-      : projects;
+  let filteredProjects = projects;
+
+  setInterval(() => {
+    filteredProjects = [];
+    if (selectedTags.length === 0) {
+      filteredProjects = projects;
+    }
+    selectedTags.forEach((tag) => {
+      filteredProjects = projects.filter((project) =>
+        project.tags.includes(tag)
+      );
+    });
+  }, 0);
 </script>
 
 <div class="projects-wrapper">
