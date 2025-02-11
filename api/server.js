@@ -13,6 +13,7 @@ import {
 import { adminAuth } from "./middleware/auth.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import e from "express";
 config();
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
@@ -121,16 +122,18 @@ router.get("/admin/messages", adminAuth, async (req, res) => {
 router.post("/register", async (req, res) => {
   try {
     const { username, password, email } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 8);
+    bcrypt.hash(password, 8, async (err, hash) => {
+      if (err) throw err;
 
-    const user = new User({
-      username,
-      password: hashedPassword,
-      email,
+      const user = new User({
+        username,
+        password: hash,
+        email,
+      });
+
+      await user.save();
+      res.status(201).json({ message: "User created successfully" });
     });
-
-    await user.save();
-    res.status(201).json({ message: "User created successfully" });
   } catch (error) {
     res.status(500).json({ error: "Failed to create user" });
   }
