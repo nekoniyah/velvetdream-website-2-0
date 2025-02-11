@@ -122,7 +122,7 @@ router.get("/admin/messages", adminAuth, async (req, res) => {
 router.post("/register", async (req, res) => {
   try {
     const { username, password, email } = req.body;
-    bcrypt.hash(password, 8, async (err, hash) => {
+    bcrypt.hash(password.toString(), 8, async (err, hash) => {
       if (err) throw err;
 
       const user = new User({
