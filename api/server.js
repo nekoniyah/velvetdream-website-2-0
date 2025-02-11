@@ -121,7 +121,7 @@ router.get("/admin/messages", adminAuth, async (req, res) => {
 router.post("/register", async (req, res) => {
   try {
     const { username, password, email } = req.body;
-    const hashedPassword = bcrypt.hashSync(password, 10);
+    const hashedPassword = bcrypt.hashSync(password);
 
     const user = new User({
       username,
@@ -142,6 +142,7 @@ router.post("/login", async (req, res) => {
     const { username, password } = req.body;
     const user = await User.findOne({ username });
 
+    console.log(user, username, password);
     if (!user || !bcrypt.compareSync(password, user.password)) {
       return res.status(401).json({ error: "Invalid credentials" });
     }
