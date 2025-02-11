@@ -2,13 +2,15 @@
   import { onMount } from "svelte";
 
   export let post = {
-    id: 0,
+    _id: null,
     title: "",
     content: "",
     date: "",
     author: "",
     image: "",
   };
+
+  console.log(post);
 
   let comments = [];
   let newComment = "";
@@ -25,7 +27,7 @@
   });
 
   async function loadComments() {
-    const response = await fetch(`/api/posts/${post.id}/comments`);
+    const response = await fetch(`/api/posts/${post._id}/comments`);
     comments = await response.json();
   }
 
@@ -33,7 +35,7 @@
     if (!isLoggedIn) return;
 
     try {
-      const response = await fetch(`/api/posts/${post.id}/comments`, {
+      const response = await fetch(`/api/posts/${post._id}/comments`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -140,10 +142,19 @@
   }
 
   textarea {
-    width: 100%;
-    min-height: 100px;
-    margin-bottom: 1rem;
-    padding: 0.5rem;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+    min-height: 150px;
+    resize: vertical;
+  }
+
+  textarea:focus {
+    outline: none;
+    border-color: var(--color-primary);
   }
 
   button {

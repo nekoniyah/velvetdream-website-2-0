@@ -209,13 +209,6 @@
     gap: 2rem;
   }
 
-  .dashboard-section {
-    background: var(--color-light);
-    padding: 1.5rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-
   h2 {
     color: var(--color-primary);
     margin-bottom: 1rem;
@@ -268,5 +261,120 @@
     border-radius: 4px;
     margin-bottom: 1rem;
     text-align: center;
+  }
+
+  .dashboard-section {
+    background: var(--color-light);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .post-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .form-group label {
+    font-family: var(--font-display);
+    color: var(--color-primary);
+    font-size: 1.1rem;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+  }
+
+  .form-group textarea {
+    min-height: 150px;
+    resize: vertical;
+  }
+
+  .form-group input:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: var(--color-primary);
+  }
+
+  .submit-btn {
+    background: var(--color-primary);
+    color: var(--color-light);
+    border: none;
+    padding: 0.8rem;
+    border-radius: 4px;
+    font-family: var(--font-display);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .logout-btn {
+    background: var(--color-secondary);
+    color: var(--color-light);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-family: var(--font-display);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .logout-btn:hover,
+  .submit-btn:hover {
+    background: var(--color-secondary);
+  }
+
+  h2 {
+    margin-bottom: 1.5rem;
+    color: var(--color-primary);
+    font-family: var(--font-display);
+  }
+
+  /* Error message styling */
+  .error {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+  }
+
+  /* Success message styling */
+  .success {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+  }
+
+  @media (max-width: 768px) {
+    .dashboard-section {
+      padding: 1rem;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      padding: 0.5rem;
+    }
+
+    .submit-btn {
+      padding: 0.75rem;
+    }
   }
 </style>

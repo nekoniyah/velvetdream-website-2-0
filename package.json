@@ -27,6 +27,7 @@
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^3.0.0",
     "@types/bcrypt": "^5.0.2",
+    "@types/express": "^5.0.0",
     "@types/node": "^22.13.1",
     "vite": "^5.0.0"
   },
