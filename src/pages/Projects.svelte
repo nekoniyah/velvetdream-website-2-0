@@ -74,9 +74,11 @@
   {:else}
     <TagFilter tags={allTags} bind:selectedTags />
     <div class="project-grid">
-      {#each filteredProjects as project (project.id)}
-        <ProjectCard {project} />
-      {/each}
+      {#key filteredProjects}
+        {#each filteredProjects as project (project.id)}
+          <ProjectCard {project} />
+        {/each}
+      {/key}
     </div>
   {/if}
 </div>
