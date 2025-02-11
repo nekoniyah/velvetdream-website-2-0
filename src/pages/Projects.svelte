@@ -15,9 +15,15 @@
       if (!response.ok) throw new Error("Failed to fetch projects");
 
       const data = await response.json();
-      projects = data;
+      // Ensure tags are arrays, not strings
+      projects = data.map((project) => ({
+        ...project,
+        tags: Array.isArray(project.tags)
+          ? project.tags
+          : project.tags?.split(",").filter(Boolean) || [],
+      }));
 
-      console.log(projects);
+      console.log("Processed projects:", projects);
 
       // Extract unique tags
       allTags = projects
@@ -34,13 +40,26 @@
   let filteredProjects = projects;
 
   $: {
+    console.log("Selected Tags:", selectedTags);
+    console.log("All Projects:", projects);
+
     if (selectedTags.length === 0) {
       filteredProjects = projects;
     } else {
-      filteredProjects = projects.filter((project) =>
-        selectedTags.every((tag) => project.tags.includes(tag))
-      );
+      filteredProjects = projects.filter((project) => {
+        const hasAllTags = selectedTags.every((tag) =>
+          project.tags.includes(tag)
+        );
+        console.log(
+          `Project ${project.title}:`,
+          project.tags,
+          "Has all tags:",
+          hasAllTags
+        );
+        return hasAllTags;
+      });
     }
+    console.log("Filtered Projects:", filteredProjects);
   }
 </script>
 
@@ -54,9 +73,11 @@
   {:else}
     <TagFilter tags={allTags} bind:selectedTags />
     <div class="project-grid">
-      {#each filteredProjects as project (project.id)}
-        <ProjectCard {project} />
-      {/each}
+      {#key filteredProjects}
+        {#each filteredProjects as project (project.id)}
+          <ProjectCard {project} />
+        {/each}
+      {/key}
     </div>
   {/if}
 </div>
