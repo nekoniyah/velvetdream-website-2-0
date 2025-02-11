@@ -2,8 +2,17 @@ import express from "express";
 import path from "path";
 import { config } from "dotenv";
 import { fileURLToPath } from "url";
-import { connectDB, Project, CompanyPost, ContactMessage } from "./database.js";
+import {
+  connectDB,
+  Project,
+  CompanyPost,
+  ContactMessage,
+  User,
+  Comment,
+} from "./database.js";
 import { adminAuth } from "./middleware/auth.js";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 config();
 const app = express();
@@ -106,6 +115,70 @@ router.get("/admin/messages", adminAuth, async (req, res) => {
   } catch (error) {
     console.error("Error fetching messages:", error);
     res.status(500).json({ error: "Failed to fetch messages" });
+  }
+});
+
+// User registration
+router.post("/register", async (req, res) => {
+  try {
+    const { username, password, email } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const user = new User({
+      username,
+      password: hashedPassword,
+      email,
+    });
+
+    await user.save();
+    res.status(201).json({ message: "User created successfully" });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to create user" });
+  }
+});
+
+// User login
+router.post("/login", async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    const user = await User.findOne({ username });
+
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      return res.status(401).json({ error: "Invalid credentials" });
+    }
+
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
+    res.json({ token, username: user.username });
+  } catch (error) {
+    res.status(500).json({ error: "Login failed" });
+  }
+});
+
+// Comments routes
+router.post("/posts/:postId/comments", async (req, res) => {
+  try {
+    const { content, userId, username } = req.body;
+    const comment = new Comment({
+      postId: req.params.postId,
+      userId,
+      content,
+      username,
+    });
+    await comment.save();
+    res.status(201).json(comment);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to create comment" });
+  }
+});
+
+router.get("/posts/:postId/comments", async (req, res) => {
+  try {
+    const comments = await Comment.find({ postId: req.params.postId }).sort({
+      created_at: -1,
+    });
+    res.json(comments);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch comments" });
   }
 });
 

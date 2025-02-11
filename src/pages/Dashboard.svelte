@@ -73,6 +73,33 @@
     navigate("/admin/login");
   }
 
+  let newPost = {
+    title: "",
+    content: "",
+    author: "",
+  };
+
+  async function handlePostSubmit() {
+    try {
+      const response = await fetch("/admin/projects", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "admin-token": localStorage.getItem("adminToken"),
+        },
+        body: JSON.stringify(newPost),
+      });
+
+      if (response.ok) {
+        const post = await response.json();
+        posts = [post, ...posts];
+        newPost = { title: "", content: "", author: "" };
+      }
+    } catch (err) {
+      error = err.message;
+    }
+  }
+
   onMount(fetchData);
 </script>
 
@@ -86,6 +113,31 @@
     <div class="error">{error}</div>
   {:else}
     <div class="dashboard-grid">
+      <section class="dashboard-section">
+        <h2>Create New Post</h2>
+        <form class="post-form" on:submit|preventDefault={handlePostSubmit}>
+          <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" id="title" bind:value={newPost.title} required />
+          </div>
+          <div class="form-group">
+            <label for="content">Content</label>
+            <textarea id="content" bind:value={newPost.content} required
+            ></textarea>
+          </div>
+          <div class="form-group">
+            <label for="author">Author</label>
+            <input
+              type="text"
+              id="author"
+              bind:value={newPost.author}
+              required
+            />
+          </div>
+          <button type="submit" class="submit-btn">Create Post</button>
+        </form>
+      </section>
+
       <!-- Projects Section -->
       <section class="dashboard-section">
         <h2>Latest Projects</h2>

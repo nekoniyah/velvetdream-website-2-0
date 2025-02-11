@@ -11,6 +11,8 @@
   import Community from "./pages/Community.svelte";
   import Dashboard from "./pages/Dashboard.svelte";
   import AdminLogin from "./pages/AdminLogin.svelte";
+  import Login from "./pages/Login.svelte";
+  import Register from "./pages/Register.svelte";
 
   export let url = "";
 
@@ -41,7 +43,9 @@
       <Route path="/store" component={Store} />
       <Route path="/community" component={Community} />
       <Route path="/admin/login" component={AdminLogin} />
-      <Route path="/admin/dashboard" component={Dashboard} />
+      <Route path="/admin" component={Dashboard} />
+      <Route path="/login" component={Login} />
+      <Route path="/register" component={Register} />
     </main>
     <Footer />
   </div>

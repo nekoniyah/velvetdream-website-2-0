@@ -36,14 +36,6 @@
       {/each}
     {/if}
   </section>
-
-  <section class="community-discussion">
-    <h2>Community Discussion</h2>
-    <p>
-      Coming soon! We're working on bringing you a space to discuss and share
-      your thoughts.
-    </p>
-  </section>
 </div>
 
 <style>

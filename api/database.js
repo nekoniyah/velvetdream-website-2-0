@@ -47,6 +47,24 @@ const ContactMessageSchema = new mongoose.Schema({
   created_at: { type: Date, default: Date.now },
 });
 
+const CommentSchema = new mongoose.Schema({
+  postId: { type: mongoose.Schema.Types.ObjectId, ref: "CompanyPost" },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  content: { type: String, required: true },
+  username: { type: String, required: true },
+  created_at: { type: Date, default: Date.now },
+});
+
+const UserSchema = new mongoose.Schema({
+  username: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  created_at: { type: Date, default: Date.now },
+});
+
+export const Comment = mongoose.model("Comment", CommentSchema);
+export const User = mongoose.model("User", UserSchema);
+
 // Create models
 export const Project = mongoose.model("Project", ProjectSchema);
 export const CompanyPost = mongoose.model("CompanyPost", CompanyPostSchema);
