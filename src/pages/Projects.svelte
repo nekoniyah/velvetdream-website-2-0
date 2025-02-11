@@ -44,15 +44,16 @@
     console.log("All Projects:", projects);
 
     if (selectedTags.length === 0) {
-      filteredProjects = projects;
+      filteredProjects = [...projects];
     } else {
-      filteredProjects = projects.filter((project) => {
+      filteredProjects = [...projects].filter((project) => {
+        const projectTags = project.tags || [];
         const hasAllTags = selectedTags.every((tag) =>
-          project.tags.includes(tag)
+          projectTags.includes(tag)
         );
         console.log(
           `Project ${project.title}:`,
-          project.tags,
+          projectTags,
           "Has all tags:",
           hasAllTags
         );
@@ -73,11 +74,9 @@
   {:else}
     <TagFilter tags={allTags} bind:selectedTags />
     <div class="project-grid">
-      {#key filteredProjects}
-        {#each filteredProjects as project (project.id)}
-          <ProjectCard {project} />
-        {/each}
-      {/key}
+      {#each filteredProjects as project (project.id)}
+        <ProjectCard {project} />
+      {/each}
     </div>
   {/if}
 </div>
