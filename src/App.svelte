@@ -1,5 +1,5 @@
 <script>
-  import { Router, Link, Route } from "svelte-routing";
+  import { Router, Route } from "svelte-routing";
   import Header from "./components/Header.svelte";
   import Footer from "./components/Footer.svelte";
   import Home from "./pages/Home.svelte";
@@ -18,10 +18,10 @@
 
   // Add routes to the store
   import { routes } from "./stores";
+  import "animate.css";
 
   routes.update((routes) => [
     ...routes,
-    { name: "Home", path: "/" },
     { name: "About", path: "/about" },
     { name: "Projects", path: "/projects" },
     { name: "Contact", path: "/contact" },
@@ -46,7 +46,10 @@
       <Route path="/admin" component={Dashboard} />
       <Route path="/login" component={Login} />
       <Route path="/register" component={Register} />
+      <Footer />
     </main>
-    <Footer />
   </div>
 </Router>
+
+<style>
+</style>

@@ -21,7 +21,7 @@
 
       const { token } = await response.json();
       localStorage.setItem("adminToken", token);
-      navigate("/admin/dashboard");
+      navigate("/admin");
     } catch (err) {
       error = err.message;
       password = "";

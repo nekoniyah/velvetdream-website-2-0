@@ -2,6 +2,7 @@
   // No imports needed since we're using Svelte's built-in styling
 
   import "../app.css";
+  import Hero from "../components/Hero.svelte";
 </script>
 
 <div class="about-wrapper">

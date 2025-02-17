@@ -4,11 +4,14 @@
   import About from "./About.svelte";
 
   import "../app.css";
+  import Community from "./Community.svelte";
 </script>
 
-<div class="home-wrapper">
+<div
+  class="home-wrapper animate__animated animate__slideInDown animate__fadeIn"
+>
   <Hero />
-  <About />
+  <Community />
   <FeaturedProjects />
 </div>
 

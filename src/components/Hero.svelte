@@ -1,10 +1,9 @@
 <script>
-  // No props or state needed for this component
 </script>
 
 <section class="hero-wrapper">
-  <div class="hero-content">
-    <img src="/logo.png" alt="VelvetDream" />
+  <div class="hero-content animate__animated animate__backInDown">
+    <img src="/logo.png" alt="VelvetDream" class="" />
     <p>Where imagination knows no bounds</p>
   </div>
 </section>
@@ -27,7 +26,7 @@
 
   img {
     max-width: 800px;
-    width: 90%;
+    width: 40%;
     height: auto;
     margin-bottom: 2rem;
   }

@@ -10,8 +10,6 @@
     image: "",
   };
 
-  console.log(post);
-
   let comments = [];
   let newComment = "";
   let isLoggedIn = false;

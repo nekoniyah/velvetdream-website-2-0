@@ -1,10 +1,29 @@
-<script>
+<script lang="ts">
   import { Link } from "svelte-routing";
+  import { currentPath } from "../stores";
+  import { onMount } from "svelte";
   let isMenuOpen = false;
 
   const toggleMenu = () => {
     isMenuOpen = !isMenuOpen;
   };
+
+  onMount(() => {
+    let ul = document.querySelector(".nav-links");
+    let a = ul.querySelectorAll("div a") as NodeListOf<HTMLLinkElement>;
+
+    for (let l of a) {
+      l.addEventListener("click", (ev) => {
+        currentPath.set(l.href);
+
+        a.forEach((l) => {
+          l.classList.remove("current");
+        });
+
+        l.classList.add("current");
+      });
+    }
+  });
 </script>
 
 <header class="header-wrapper">
@@ -22,35 +41,52 @@
 
     <!-- Navigation Links -->
     <ul class="nav-links" class:active={isMenuOpen}>
-      <li><Link to="/" on:click={toggleMenu}>Home</Link></li>
-      <li><Link to="/about" on:click={toggleMenu}>About</Link></li>
-      <li><Link to="/community" on:click={toggleMenu}>Community</Link></li>
-      <li><Link to="/projects" on:click={toggleMenu}>Projects</Link></li>
-      <li><Link to="/store" on:click={toggleMenu}>Store</Link></li>
-      <li><Link to="/contact" on:click={toggleMenu}>Contact</Link></li>
+      <div>
+        <li><Link to="/about" on:click={toggleMenu}>About</Link></li>
+        <span></span>
+      </div>
+      <div>
+        <li><Link to="/community" on:click={toggleMenu}>Community</Link></li>
+        <span></span>
+      </div>
+      <div>
+        <li><Link to="/projects" on:click={toggleMenu}>Projects</Link></li>
+        <span></span>
+      </div>
+      <div>
+        <li><Link to="/store" on:click={toggleMenu}>Store</Link></li>
+        <span></span>
+      </div>
+      <div>
+        <li><Link to="/contact" on:click={toggleMenu}>Contact</Link></li>
+        <span></span>
+      </div>
     </ul>
   </nav>
 </header>
 
 <style>
   .header-wrapper {
-    background-color: var(--color-light);
-    padding: 1rem 0;
+    height: 80px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    position: relative;
+    position: sticky;
+    top: 0;
+    left: 0;
+    background-image: url(/background.png);
+    background-repeat: no-repeat;
+    background-size: 110%;
+    background-position: 10% 10%;
+    z-index: 1;
   }
 
   nav {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 1rem;
   }
 
   .logo {
-    height: 50px;
+    height: 70px;
     z-index: 2;
   }
 
@@ -89,8 +125,19 @@
 
   .nav-links {
     display: flex;
+    position: static;
+    top: 0;
+    right: 0;
+    text-align: center;
+    z-index: 1;
     list-style-type: none;
     gap: 2rem;
+  }
+
+  :global(.nav-links div) {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
   }
 
   /* Mobile styles */
@@ -101,36 +148,77 @@
 
     .nav-links {
       display: none;
-      flex-direction: column;
-      position: fixed;
-      top: 0;
-      right: 0;
-      height: 100vh;
-      width: 100%;
-      background-color: var(--color-light);
-      padding: 80px 2rem;
-      text-align: center;
-      gap: 2rem;
-      z-index: 1;
     }
 
     .nav-links.active {
       display: flex;
     }
 
-    .nav-links li {
+    .nav-links div li {
       margin: 1rem 0;
     }
   }
 
-  :global(.nav-links a) {
+  :global(.nav-links div li a) {
     font-family: var(--font-display);
     font-weight: bold;
-    color: var(--color-primary);
-    transition: color 0.3s ease;
+    color: #fbfbfb;
+    text-shadow: 2px 2px 20px var(--color-primary);
+
+    transition: border-bottom 0.3s cubic-bezier(0.39, 0.575, 0.565, 1);
+    font-size: 1.4rem;
+    text-transform: uppercase;
   }
 
-  :global(.nav-links a:hover) {
-    color: var(--color-secondary);
+  @keyframes border_bot {
+    0% {
+      width: 0px;
+      height: 5px;
+      background-color: var(--color-secondary);
+      border-radius: 99px;
+    }
+
+    100% {
+      width: 100%;
+      height: 5px;
+      background-color: var(--color-secondary);
+      border-radius: 99px;
+    }
   }
+
+  @keyframes border_bot_2 {
+    0% {
+      width: 100%;
+      height: 5px;
+      border-radius: 99px;
+    }
+
+    100% {
+      width: 0px;
+      height: 5px;
+      border-radius: 99px;
+    }
+  }
+
+  :global(.nav-links div:hover span) {
+    animation-name: border_bot;
+    animation-duration: 0.6s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+    background-color: var(--color-secondary);
+    border-radius: 99px;
+  }
+
+  :global(.nav-links div span) {
+    animation-name: border_bot_2;
+    animation-duration: 0.6s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+    background-color: var(--color-secondary);
+    border-radius: 99px;
+  }
+
+  /* :global(.nav-links div a.current) {
+    color: var(--color-secondary); */
+  /* } */
 </style>
