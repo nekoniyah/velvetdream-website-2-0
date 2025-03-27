@@ -2,11 +2,32 @@
 
 :root {
   --color-primary: #A41623;
+  --color-primary-light: #c41b2b;
+  --color-primary-dark: #8a1219;
   --color-secondary: #D4AF37;
+  --color-secondary-light: #e0c055;
+  --color-secondary-dark: #b39126;
   --color-dark: #0F0F0F;
-  --color-light: #FFFFFF;
+  --color-dark-2: #1a1a1a;
+  --color-light: #FBFBFB;
+  --color-light-2: #f5f5f5;
   --font-display: 'Aclonica', sans-serif;
   --font-body: 'Dosis', sans-serif;
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 4rem;
+  --border-radius: 8px;
+  --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --transition-speed: 0.3s;
+}
+
+/* Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
@@ -14,33 +35,143 @@ body {
   color: var(--color-dark);
   background-color: var(--color-light);
   line-height: 1.6;
-  margin: 0;
-  padding: 0;
+  font-size: 16px;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
   color: var(--color-primary);
-  text-shadow: 4px 4px 6px var(--color-secondary)
+  margin-bottom: var(--spacing-md);
+  line-height: 1.2;
+  text-shadow: 2px 2px 4px rgba(212, 175, 55, 0.3);
+  transition: color var(--transition-speed) ease;
 }
 
+h1 { font-size: 2.5rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.75rem; }
+h4 { font-size: 1.5rem; }
+h5 { font-size: 1.25rem; }
+h6 { font-size: 1rem; }
+
+/* Links */
 a {
   color: var(--color-primary);
   text-decoration: none;
-  transition: color 0.3s ease;
+  transition: all var(--transition-speed) ease;
+  position: relative;
 }
 
-:root {
-  /* ... existing variables ... */
+a:hover {
+  color: var(--color-primary-light);
+}
 
-  /* Add these new variables */
-  --header-height: 70px;
-  --transition-speed: 0.3s;
+a:not(.no-underline)::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background-color: var(--color-secondary);
+  transition: width var(--transition-speed) ease;
+}
+
+a:not(.no-underline):hover::after {
+  width: 100%;
+}
+
+/* Buttons */
+button, .button {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: none;
+  border-radius: var(--border-radius);
+  background-color: var(--color-primary);
+  color: var(--color-light);
+  font-family: var(--font-body);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-speed) ease;
+  box-shadow: var(--box-shadow);
+}
+
+button:hover, .button:hover {
+  background-color: var(--color-primary-light);
+  transform: translateY(-2px);
+}
+
+/* Cards */
+.card {
+  background-color: var(--color-light);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-md);
+  box-shadow: var(--box-shadow);
+  transition: transform var(--transition-speed) ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+/* Containers */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.fade-in {
+  animation: fadeIn var(--transition-speed) ease-in;
+}
+
+/* Form Elements */
+input, textarea, select {
+  width: 100%;
+  padding: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+  border: 1px solid var(--color-dark-2);
+  border-radius: var(--border-radius);
+  font-family: var(--font-body);
+  transition: all var(--transition-speed) ease;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--color-secondary);
+  box-shadow: 0 0 0 2px var(--color-secondary-light);
+}
+
+/* Grid System */
+.grid {
+  display: grid;
+  gap: var(--spacing-md);
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  :root {
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 3rem;
+  }
+
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.75rem; }
+  h3 { font-size: 1.5rem; }
+  h4 { font-size: 1.25rem; }
+  h5 { font-size: 1.1rem; }
+  h6 { font-size: 1rem; }
+
+  .container {
+    padding: 0 var(--spacing-sm);
+  }
 }
 
 /* Add this to ensure proper body behavior when menu is open */

@@ -23,23 +23,24 @@
   </div>
   
   <style>
-    .tag-filter {
+    :global(.tag-filter) {
       margin: 1rem 0;
       display: flex;
       flex-wrap: wrap;
       gap: 0.5rem;
     }
   
-    .tag-button {
+    :global(.tag-button) {
       padding: 0.5rem 1rem;
       border: 1px solid var(--color-primary);
+      color: var(--color-primary);
       border-radius: 20px;
       background: none;
       cursor: pointer;
       transition: all 0.3s ease;
     }
   
-    .tag-button.active {
+    :global(.tag-button.active) {
       background: var(--color-primary);
       color: var(--color-light);
     }

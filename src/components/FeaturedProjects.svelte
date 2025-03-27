@@ -1,9 +1,19 @@
-<script>
+<script lang="ts">
   import { onMount } from "svelte";
   import { Link } from "svelte-routing";
   import ProjectCard from "./ProjectCard.svelte";
 
-  let featuredProjects = [];
+  interface Project {
+    id: string;
+    title: string;
+    description: string;
+    image: string;
+    tags: string[];
+    url?: string;
+    github?: string;
+  }
+
+  let featuredProjects: Project[] = [];
   let loading = true;
   let error = null;
 
