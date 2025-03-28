@@ -2,103 +2,139 @@
   import { onMount } from "svelte";
   import ProjectCard from "../components/ProjectCard.svelte";
   import TagFilter from "../components/TagFilter.svelte";
+  import SkeletonLoader from "../components/SkeletonLoader.svelte";
+  import { api } from "../utils/api";
+  import { loading } from "../stores/loading";
 
-  let projects = [];
-  let selectedTags = [];
-  let allTags = [];
-  let loading = true;
-  let error = null;
+  interface Project {
+    _id: string;
+    title: string;
+    description: string;
+    image: string;
+    tags: string | string[];
+    githubUrl?: string;
+    liveUrl?: string;
+  }
+
+  interface ProcessedProject extends Omit<Project, 'tags'> {
+    tags: string[];
+  }
+
+  let projects: ProcessedProject[] = [];
+  let selectedTags: string[] = [];
+  let allTags: string[] = [];
+  let error: Error | null = null;
 
   onMount(async () => {
     try {
-      const response = await fetch("/api/projects");
-      if (!response.ok) throw new Error("Failed to fetch projects");
-
-      const data = await response.json();
+      const data = await api<Project[]>("/api/projects", { loadingKey: "projects" });
       // Ensure tags are arrays, not strings
       projects = data.map((project) => ({
         ...project,
-        tags: Array.isArray(project.tags)
-          ? project.tags
-          : project.tags?.split(",").filter(Boolean) || [],
+        tags: typeof project.tags === 'string'
+          ? project.tags.split(",").filter(Boolean)
+          : Array.isArray(project.tags)
+            ? project.tags
+            : []
       }));
 
-      console.log("Processed projects:", projects);
-
       // Extract unique tags
-      allTags = projects
-        .map((project) => project.tags)
-        .flat()
-        .filter((tag, index, tags) => tags.indexOf(tag) === index);
+      allTags = Array.from(new Set(projects.flatMap(project => project.tags)));
     } catch (err) {
-      error = err.message;
-    } finally {
-      loading = false;
+      error = err instanceof Error ? err : new Error(String(err));
+      throw error; // ErrorBoundary will catch this
     }
   });
 
-  let filteredProjects = projects;
+  $: filteredProjects = selectedTags.length === 0
+    ? projects
+    : projects.filter((project) => 
+        selectedTags.every((tag) => project.tags.includes(tag))
+      );
 
-  $: {
-    console.log("Selected Tags:", selectedTags);
-    console.log("All Projects:", projects);
-
-    if (selectedTags.length === 0) {
-      filteredProjects = [...projects];
-    } else {
-      filteredProjects = [...projects].filter((project) => {
-        const projectTags = project.tags || [];
-        const hasAllTags = selectedTags.every((tag) =>
-          projectTags.includes(tag)
-        );
-        console.log(
-          `Project ${project.title}:`,
-          projectTags,
-          "Has all tags:",
-          hasAllTags
-        );
-        return hasAllTags;
-      });
-    }
-    console.log("Filtered Projects:", filteredProjects);
+  function handleTagSelect(tag: string) {
+    selectedTags = selectedTags.includes(tag)
+      ? selectedTags.filter(t => t !== tag)
+      : [...selectedTags, tag];
   }
 </script>
 
-<div class="projects-wrapper">
-  <h1>Our Projects</h1>
+<div class="projects-container">
+  <h1>Projects</h1>
+  
+  <TagFilter
+    tags={allTags}
+    selectedTags={selectedTags}
+    on:tagSelect={({ detail }) => handleTagSelect(detail)}
+  />
 
-  {#if loading}
-    <p>Loading projects...</p>
-  {:else if error}
-    <p class="error">{error}</p>
-  {:else}
-    <TagFilter tags={allTags} bind:selectedTags />
-    <div class="project-grid">
-      {#key filteredProjects}
-        {#each filteredProjects as project (project.id)}
-          <ProjectCard {project} />
-        {/each}
-      {/key}
+  {#if $loading.projects}
+    <div class="projects-grid">
+      {#each Array(6) as _, i}
+        <div class="project-skeleton">
+          <SkeletonLoader height="200px" margin="0 0 1rem 0" />
+          <SkeletonLoader width="70%" height="24px" margin="0 0 0.5rem 0" />
+          <SkeletonLoader height="16px" margin="0 0 0.5rem 0" />
+          <SkeletonLoader width="40%" height="16px" />
+        </div>
+      {/each}
     </div>
+  {:else if filteredProjects.length > 0}
+    <div class="projects-grid animate__animated animate__fadeIn">
+      {#each filteredProjects as project (project._id)}
+        <ProjectCard {project} />
+      {/each}
+    </div>
+  {:else}
+    <p class="no-projects">
+      {selectedTags.length > 0
+        ? "No projects match the selected filters."
+        : "No projects available."}
+    </p>
   {/if}
 </div>
 
-<style>
-  .projects-wrapper {
+<style lang="scss">
+  .projects-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 4rem 1rem;
+    padding: 2rem;
   }
 
-  .project-grid {
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: var(--text-primary);
+  }
+
+  .projects-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 2rem;
+    margin-top: 2rem;
   }
 
-  .error {
-    color: red;
+  .project-skeleton {
+    background: var(--bg-secondary);
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .no-projects {
     text-align: center;
-    margin: 2rem 0;
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    margin-top: 3rem;
+  }
+
+  @media (max-width: 768px) {
+    .projects-grid {
+      grid-template-columns: 1fr;
+    }
+
+    h1 {
+      font-size: 2rem;
+    }
   }
 </style>
